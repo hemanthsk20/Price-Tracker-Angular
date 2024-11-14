@@ -1,0 +1,103 @@
+<app-header />
+<div class="chart-container">
+    <h3>Filters</h3>
+    <div class="card flex my-4 align-items-center flex-wrap justify-content-around">
+        <div class="flex flex-column">
+            <span id="brands" class="pb-1">Brand:</span>
+            <p-dropdown [options]="brands" [(ngModel)]="selectedBrand" [checkmark]="true" [showClear]="true"
+                (onChange)="onDropdownChange()" placeholder="Select a Brand" />
+        </div>
+        <div class="flex flex-column">
+            <label id="models" class="pb-1">Model:</label>
+            <p-dropdown [options]="models" [(ngModel)]="selectedModel" [checkmark]="true" [showClear]="true"
+                (onChange)="onDropdownChange()" placeholder="Select a Model" />
+        </div>
+        <div class="flex flex-column">
+            <label id="portals" class="pb-1">Portal:</label>
+            <p-dropdown [options]="portals" [(ngModel)]="selectedPortal" [checkmark]="true" [showClear]="true"
+                (onChange)="onDropdownChange()" placeholder="Select a Portal" />
+        </div>
+        <div class="flex flex-column">
+            <label id="portals" class="pb-1">Dealer:</label>
+            <p-dropdown [options]="manufacturers" [(ngModel)]="selectedManufacturer" [checkmark]="true"
+                [showClear]="true" (onChange)="onDropdownChange()" placeholder="Select a Dealer" />
+        </div>
+    </div>
+    <div class="card flex my-4 align-items-center flex-wrap justify-content-evenly">
+        <div class="flex flex-column gap-2">
+            <label id="machine-hours" class="pb-1">Operational Hours:</label>
+                <span class="p-dropdown p-inputtext w-full mb-2">{{ selectedHoursUsageRange[0] }}-{{ selectedHoursUsageRange[1] }}</span>
+            <p-slider class="ml-2" [(ngModel)]="selectedHoursUsageRange" [min]="minHoursUsage" [max]="maxHoursUsage" [animate]="true"
+                [range]="true" (onChange)="onDropdownChange()" styleClass="w-14rem" />
+        </div>
+        <div class="flex flex-column gap-2">
+            <label id="build-year" class="pb-1">Build Year:</label>
+            <span class="p-dropdown p-inputtext w-full mb-2">{{ selectedYearsRange[0] }}-{{ selectedYearsRange[1] }}</span>
+            <p-slider class="ml-2" [(ngModel)]="selectedYearsRange" [min]="minYear" [max]="maxYear" [range]="true"
+                (onChange)="onDropdownChange()" styleClass="w-14rem" />
+        </div>
+    </div>
+    @if(filteredData.length){
+        <app-table [tableData]="filteredData" />
+
+        <div class="my-4 grid">
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-years-prices [yearsPriceChartData]="filteredData" />
+                } @placeholder {
+                <p>Years Per Prices Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-prices-manufacturers [pricesManufacturersChartData]="filteredData" />
+                } @placeholder {
+                <p>Prices Per Manufacturers Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-hours-years [hoursYearsChartData]="filteredData" />
+                } @placeholder {
+                <p>Hours Per Years Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-portals-modals [portalModalChartData]="filteredData" />
+                } @placeholder {
+                <p>Portals Per Models Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-prices-models [pricesModelsChartData]="filteredData" />
+                } @placeholder {
+                <p>Prices Per Models Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+            <div class="col-12">
+                @defer (on viewport) {
+                <app-prices-hours [priceHoursChartData]="filteredData" />
+                } @placeholder {
+                <p>Prices Per Hours Chart</p>
+                } @loading (minimum 1s) {
+                <p>Loading Chart...</p>
+                }
+            </div>
+        </div>
+    }@else {
+        <p class="text-center p-3 surface-300">No Matches Found</p>
+    }
+
+</div>

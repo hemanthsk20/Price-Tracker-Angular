@@ -1,0 +1,10 @@
+.chart-container {
+    padding: 20px;
+
+    .disabled {
+        opacity: 1;
+        background-color: #e2e8f0;
+        color: #64748b;
+        cursor:not-allowed;
+    }
+}

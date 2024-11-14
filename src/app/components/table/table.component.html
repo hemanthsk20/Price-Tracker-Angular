@@ -1,0 +1,83 @@
+<p-accordion [activeIndex]="0">
+    <p-accordionTab header="General Price Average & Machine Count Table">
+        <p-table
+        [value]="averagePrices"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+             <th style="width:25%">Model</th>
+             <th style="width:25%">Average Price</th>
+             <th style="width:25%">Machine Count</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-table>
+            <tr> 
+            <td style="width:25%">{{table.Model}}</td>
+            <td style="width:25%">{{table.AvgPrice? '€'+(table.AvgPrice | number:"3.2-2") : '--'}}</td>
+            <td style="width:25%">{{table.MachineCount}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </p-accordionTab>
+    <p-accordionTab header="Yearlywise Price Average & Machine Count Table">
+        <p-table
+        [value]="yearAveragePrices"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+             <th style="width:25%">Model</th>
+             @for(year of uniqueYears; track $index){
+                <th style="width:25%">{{year + ' Average'}}</th>
+                <th>{{year + ' Count'}}</th>
+             }
+             
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-table>
+            <tr> 
+            <td>{{table.Model}}</td>
+            @for(year of uniqueYears; track $index){
+                <td style="width:25%">{{table[year]?.average? '€'+(table[year].average | number:"3.2-2"): '--'}}</td>
+                <td style="width:25%">{{table[year]?.count? (table[year].count): '--'}}</td>
+             }
+            </tr>
+        </ng-template>
+        </p-table>
+    </p-accordionTab>
+    <p-accordionTab header="Platformwise Price Average & Machine Count Table">
+        <p-table
+        [value]="averagePricesPerPlatform"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        >
+        <ng-template pTemplate="header">
+            <tr>
+             <th style="width:25%">Model</th>
+             <th style="width:25%">Machinerypark Average Price</th>
+             <th style="width:25%">Machinerypark Count</th>
+             <th style="width:25%">Mascus Average Price</th>
+             <th style="width:25%">Mascus Count</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-table>
+            <tr> 
+            <td style="width:25%">{{table.Model}}</td>
+            <td style="width:25%">{{table.MachineryparkAvg? '€'+(table.MachineryparkAvg | number:"3.2-2") : '--'}}</td>
+            <td style="width:25%">{{table.MachineryparkCount? table.MachineryparkCount : '--'}}</td>
+            <td style="width:25%">{{table.MascusAvg? '€'+(table.MascusAvg | number:"3.2-2") : '--'}}</td>
+            <td style="width:25%">{{table.MascusCount? table.MascusCount : '--'}}</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </p-accordionTab>
+</p-accordion>
